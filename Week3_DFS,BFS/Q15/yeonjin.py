@@ -4,17 +4,16 @@ from collections import deque
 def bfs(graph, start, visited):
     visited[start] = True
     queue = deque([(start, 0)])
-    cnt = 0
     ans = []
     while queue:
         v = queue.popleft()
-        cnt = v[1] + 1
+        time = v[1] + 1
         for i in graph[v[0]]:
             if not visited[i]:
                 visited[i] = True
                 # cnt 초에 i 노드 도착
-                queue.append((i, cnt))
-                if cnt == K:
+                queue.append((i, time))
+                if time == K:
                     ans.append(i)
     return ans
 
