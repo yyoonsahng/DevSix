@@ -30,14 +30,21 @@ for i in range(N):
     graph.append(line)
 
 ans = 0
+# 빈공간중에 벽이 들어올수 있는 세자리의 조합 리스트 구하기
 walls_added_combi = list(combinations(empty, 3))
+# 모든 조합에 대해 계산
 for i in range(len(walls_added_combi)):
     walls_added = walls_added_combi[i]
+    # 깊은 복사 해야 값이 복사됨
+    # .copy()는 참조 복사라 new_graph 값 변경하면 graph 의 값도 같이 변경됨)
     new_graph = copy.deepcopy(graph)
     for c in walls_added:
         new_graph[c[0]][c[1]] = 1
+    # 모든 바이러스의 위치에서 시작해서 dfs 수행
     for v in virus:
         dfs(new_graph, v)
+
+    # 빈 공간 계산
     cnt = 0
     for line in new_graph:
         for j in line:
