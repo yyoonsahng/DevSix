@@ -11,7 +11,7 @@ def bfs(graph, start, visited):
         for i in graph[v[0]]:
             if not visited[i]:
                 visited[i] = True
-                # cnt 초에 i 노드 도착
+                # time 초에 i 노드 도착
                 queue.append((i, time))
                 if time == K:
                     ans.append(i)
