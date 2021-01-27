@@ -1,47 +1,45 @@
-dy = [0, 0, 1, -1]
-dx = [1, -1, 0, 0]
+from itertools import combinations
+dx = [0, 0, 1, -1]
+dy = [1, -1, 0, 0]
 
 
-# pypy로 돌려야 오류 안남
-def dfs(graph, y, x, visited, union):
-    visited[y][x] = True
-    union.append((y, x))
-    for i in range(4):
-        ny, nx = y + dy[i], x + dx[i]
-        if 0 <= ny < N and 0 <= nx < N:
-            if L <= abs(graph[ny][nx] - graph[y][x]) <= R:
-                if not visited[ny][nx]:
-                    dfs(graph, ny, nx, visited, union)
+def go(y, x, dir, objects):
+    if arr[y][x] == 'S':
+        return True
+    elif (y, x) in objects:
+        return False
+    ny, nx = y + dy[dir], x + dx[dir]
+    if 0 <= ny < N and 0 <= nx < N:
+        return go(ny, nx, dir, objects)
+    return False
 
 
-N, L, R = map(int, input().split())
-A = []
+N = int(input())
+arr = []
+emptys = []
+teachers = []
 for i in range(N):
-    A.append(list(map(int, input().split())))
+    arr.append(list(map(str, input().split())))
+    for j in range(N):
+        if arr[i][j] == 'X':
+            emptys.append((i, j))
+        elif arr[i][j] == 'T':
+            teachers.append((i, j))
 
-
-answer = 0
-while True:
-    visited = [[False] * N for _ in range(N)]
-    unions = []
-    cnt = 0
-    for i in range(N):
-        for j in range(N):
-            if not visited[i][j]:
-                unions.append([])
-                dfs(A, i, j, visited, unions[cnt])
-                cnt += 1
-    if len(unions) == N * N:
+flg2 = False
+for objects in list(combinations(emptys, 3)):
+    flg = False
+    for teacher in teachers:
+        for i in range(4):
+            ny, nx = teacher[0] + dy[i], teacher[1] + dx[i]
+            if 0 <= nx < N and 0 <= ny < N:
+                if go(ny, nx, i, objects):
+                    # 학생 발견
+                    flg = True
+                    break
+    if not flg:
+        flg2 = True
+        print("YES")
         break
-    for i in range(len(unions)):
-        sum = 0
-        for j in range(len(unions[i])):
-            y, x = unions[i][j]
-            sum += A[y][x]
-        for c in unions[i]:
-            y, x = c
-            A[y][x] = sum // len(unions[i])
-    answer += 1
-
-print(answer)
-
+if not flg2:
+    print("NO")
