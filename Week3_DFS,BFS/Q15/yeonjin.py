@@ -3,6 +3,7 @@ from collections import deque
 
 def bfs(graph, start, visited):
     visited[start] = True
+    # 노드 번호, 시간
     queue = deque([(start, 0)])
     ans = []
     while queue:
