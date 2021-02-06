@@ -1,4 +1,4 @@
-ß  # input
+# input
 n = int(input())
 
 student_info = []
