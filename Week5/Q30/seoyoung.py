@@ -50,12 +50,17 @@ def countMatchedWord(index, query, words):
 def solution(words, queries):
     answer = []
     words.sort(key=len)
+    reversed_words = [word[::-1] for word in words]
     for query in queries:
         index = findLengthMatchedWord(query, words)
         if index == -1:
             answer.append(0)
         else:
-            answer.append(countMatchedWord(index, query, words))
+            if query[0] != '?':
+                answer.append(countMatchedWord(
+                    index, query[::-1], reversed_words))
+            else:
+                answer.append(countMatchedWord(index, query, words))
     return answer
 
 
