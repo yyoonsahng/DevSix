@@ -51,8 +51,13 @@ def solution(words, queries):
     answer = []
     words.sort(key=len)
     reversed_words = [word[::-1] for word in words]
+    lengthMatchedMap = {}
     for query in queries:
-        index = findLengthMatchedWord(query, words)
+        queryLength = len(query)
+        index = lengthMatchedMap.get(queryLength)
+        if index == None:
+            index = findLengthMatchedWord(query, words)
+            lengthMatchedMap[queryLength] = index
         if index == -1:
             answer.append(0)
         else:
