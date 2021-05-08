@@ -11,8 +11,7 @@ def getMatchedList(regex, user_id):
     return matchedList
 
 
-def getCaseCount(matchedList):
-    possibleCaseCount = 0
+def getPossibleCaseCount(matchedList):
     li = map(lambda x: frozenset(x), filter(
         lambda c: len(c) == len(set(c)), product(*matchedList)))
     return len(set(li))
@@ -24,5 +23,5 @@ def solution(user_id, banned_id):
         regex = bid.replace("*", "[a-z\d]")
         regex = "^"+regex+"$"
         matchedList[i] = getMatchedList(regex, user_id)
-    answer = getCaseCount(matchedList)
+    answer = getPossibleCaseCount(matchedList)
     return answer
